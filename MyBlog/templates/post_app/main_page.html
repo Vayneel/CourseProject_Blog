@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block style %}
+    article {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+{% endblock %}
+
+{% block content %}
+        {% for post in posts %}
+        <article class="post">
+            <h3><a href="{{ post.url }}">{{post.title}}</a></h3>
+            <p>Posted on: {{post.pub_date}}, by {{post.author}}</p>
+        </article><br>
+        {% endfor %}
+{% endblock %}
+

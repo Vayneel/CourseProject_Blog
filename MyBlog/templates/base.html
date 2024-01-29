@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Blog Site</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #eee;
+            padding: 10px;
+            text-align: center;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        #categories {
+            margin-right: 600px;
+        }
+
+        #user-actions {
+            margin-left: 600px;
+        }
+
+        {% block style %}{% endblock %}
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Blog</h1>
+        <nav>
+            <span id="categories">
+                <a href="/post/create/">Create Post</a> |
+                <a href="/">Newest Posts</a> |
+                <a href="/post/search/">Search</a>
+                <span id="favorites"> | <a href="/post/favorites/">Favorites</a></span>
+            </span>
+
+            <!-- Add a user profile link and login/logout button based on user authentication status -->
+            <span id="user-actions">
+                <a href="/user/lout/">Log Out</a> | <a href="/user/profile/">User Profile</a>
+                <a href="/user/auth/">Log In</a> | <a href="/user/reg/">Register</a>
+            </span>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    {% if is_authenticated %}
+    <script>let is_authenticated = true;</script>
+    {% else %}
+    <script>let is_authenticated = false;</script>
+    {% endif %}
+
+    <script>
+        // Function to update UI based on user authentication status
+        function updateUI() {
+            const userActions = document.getElementById('user-actions');
+            const favorites = document.getElementById('favorites')
+
+            if (is_authenticated) {
+                userActions.innerHTML = '<a href="/user/lout/">Log Out</a> | <a href="/user/profile/">User Profile</a>';
+                favorites.innerHTML = ' | <a href="/post/favorites/">Favorites</a>';
+            } else {
+                favorites.innerHTML = null;
+                userActions.innerHTML = '<a href="/user/auth/">Log In</a> | <a href="/user/reg/">Register</a>';
+            }
+        }
+
+        // Call updateUI initially
+        updateUI();
+    </script>
+</body>
+
+</html>

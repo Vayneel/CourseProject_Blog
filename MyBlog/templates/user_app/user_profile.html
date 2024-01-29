@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block style %}
+    .profile-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .user-image {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        margin-right: 20px;
+        border-radius: 50%;
+    }
+
+    .user-info {
+        max-width: 400px;
+    }
+
+    input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    input[type="submit"] {
+        background-color: #4caf50;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+
+{% endblock %}
+
+{% block content %}
+    <div class="profile-container">
+        {% if change %}
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <img src="{% static user_add.avatar %}" alt="AVATAR" class="user-image">
+                <div class="user-info">
+                    <h2>{{ user.username }}</h2>
+                    {{ form }}
+                    <input type="hidden" name="redir" value="True">
+                    <input type="submit" value="Save">
+                </div>
+            </form>
+        {% else %}
+            <img src="{% static user_add.avatar %}" alt="AVATAR" class="user-image">
+            <form method="post">
+                {% csrf_token %}
+                <div class="user-info">
+                    <h2>{{ user.username }}</h2>
+                    <p>Email: {{ user.email }}</p>
+                    <p>Birthday: {{ user_add.birthday }}</p>
+                    <input type="hidden" name="change" value="True">
+                    <input type="submit" value="Change">
+                </div>
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}
